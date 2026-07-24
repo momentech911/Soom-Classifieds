@@ -50,6 +50,29 @@
     "description": "Shown when the device is offline."
   },
 
+  "forceUpdateTitle": "Update required",
+  "@forceUpdateTitle": {
+    "description": "Heading when the installed build is no longer supported."
+  },
+  "forceUpdateBody": "This version of SOOM is no longer supported. Please update to continue.",
+  "@forceUpdateBody": {
+    "description": "Body of the blocking force-update screen."
+  },
+  "forceUpdateVersions": "You have {current}; {minimum} is required.",
+  "@forceUpdateVersions": {
+    "description": "Shows installed versus required version.",
+    "placeholders": {
+      "current": {
+        "type": "String",
+        "example": "1.0.0"
+      },
+      "minimum": {
+        "type": "String",
+        "example": "1.2.0"
+      }
+    }
+  },
+
   "directionDemoTitle": "Direction check",
   "@directionDemoTitle": {
     "description": "Title of the RTL/LTR smoke-test screen."

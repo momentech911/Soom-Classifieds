@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:soom_mobile/app/bootstrap/bootstrap_screen.dart';
 import 'package:soom_mobile/app/localization/direction_demo_screen.dart';
 import 'package:soom_mobile/app/router/app_routes.dart';
 import 'package:soom_mobile/app/router/placeholder_screen.dart';
@@ -30,7 +31,13 @@ abstract final class AppRouter {
       errorBuilder: (BuildContext context, GoRouterState state) =>
           _RouteNotFoundScreen(location: state.uri.toString()),
       routes: <RouteBase>[
-        _route(AppRoute.bootstrap, plannedIn: 'M0.7'),
+        // Route 1 is real as of M0.7 — the rest are still placeholders.
+        GoRoute(
+          path: AppRoute.bootstrap.path,
+          name: AppRoute.bootstrap.routeName,
+          builder: (BuildContext context, GoRouterState state) =>
+              const BootstrapScreen(),
+        ),
         _route(AppRoute.phoneLogin, plannedIn: 'M1.2'),
         _route(AppRoute.otpVerification, plannedIn: 'M1.3'),
         _route(AppRoute.profileCompletion, plannedIn: 'M1.5'),

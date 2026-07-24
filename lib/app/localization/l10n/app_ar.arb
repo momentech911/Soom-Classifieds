@@ -16,6 +16,10 @@
   "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
   "errorNoConnection": "لا يوجد اتصال بالإنترنت.",
 
+  "forceUpdateTitle": "التحديث مطلوب",
+  "forceUpdateBody": "هذا الإصدار من سوم لم يعد مدعومًا. يرجى التحديث للمتابعة.",
+  "forceUpdateVersions": "لديك {current}، والمطلوب {minimum}.",
+
   "directionDemoTitle": "فحص الاتجاه",
   "directionDemoBody": "يجب أن تبدأ هذه الفقرة من الحافة الأمامية: اليسار في الإنجليزية واليمين في العربية. ويجب أن تنعكس الأيقونة والسهم أدناه معها.",
   "directionDemoCurrentLocale": "اللغة الحالية: {locale}",

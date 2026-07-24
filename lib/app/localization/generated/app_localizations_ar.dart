@@ -42,6 +42,18 @@ class AppL10nAr extends AppL10n {
   String get errorNoConnection => 'لا يوجد اتصال بالإنترنت.';
 
   @override
+  String get forceUpdateTitle => 'التحديث مطلوب';
+
+  @override
+  String get forceUpdateBody =>
+      'هذا الإصدار من سوم لم يعد مدعومًا. يرجى التحديث للمتابعة.';
+
+  @override
+  String forceUpdateVersions(String current, String minimum) {
+    return 'لديك $current، والمطلوب $minimum.';
+  }
+
+  @override
   String get directionDemoTitle => 'فحص الاتجاه';
 
   @override

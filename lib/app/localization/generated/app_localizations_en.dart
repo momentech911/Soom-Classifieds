@@ -42,6 +42,18 @@ class AppL10nEn extends AppL10n {
   String get errorNoConnection => 'No internet connection.';
 
   @override
+  String get forceUpdateTitle => 'Update required';
+
+  @override
+  String get forceUpdateBody =>
+      'This version of SOOM is no longer supported. Please update to continue.';
+
+  @override
+  String forceUpdateVersions(String current, String minimum) {
+    return 'You have $current; $minimum is required.';
+  }
+
+  @override
   String get directionDemoTitle => 'Direction check';
 
   @override

@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:soom_mobile/app/bootstrap/bootstrap_cubit.dart';
 import 'package:soom_mobile/app/localization/generated/app_localizations.dart';
 import 'package:soom_mobile/app/router/app_router.dart';
 import 'package:soom_mobile/app/router/app_routes.dart';
 import 'package:soom_mobile/app/router/placeholder_screen.dart';
 import 'package:soom_mobile/core/auth/auth_state.dart';
+import 'package:soom_mobile/core/storage/app_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import '../../helpers/stub_adapter.dart';
+
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUp(() {
+    SharedPreferences.setMockInitialValues(<String, Object>{});
+  });
+
   /// Pumps the router with [auth], starting at [initialLocation].
+  ///
+  /// A [BootstrapCubit] is provided because route 1 is a real screen as of
+  /// M0.7. It is never `run()` here, so it sits in its loading state and does
+  /// not redirect — these tests are about the route table, not the gate.
+  /// Set [settle] false when the destination shows an indefinite progress
+  /// indicator — `pumpAndSettle` would spin forever waiting on it.
   Future<GoRouter> pumpRouter(
     WidgetTester tester, {
     required AuthStateNotifier auth,
     String? initialLocation,
+    bool settle = true,
   }) async {
     final GoRouter router = AppRouter.create(
       auth: auth,
@@ -21,19 +40,36 @@ void main() {
     );
     addTearDown(router.dispose);
 
+    final BootstrapCubit bootstrapCubit = BootstrapCubit(
+      apiClient: buildTestApiClient(
+        adapter: StubAdapter.single(statusCode: 200),
+      ),
+      preferences: await AppPreferences.create(),
+      auth: auth,
+      appVersionReader: () async => '1.0.0',
+    );
+    addTearDown(bootstrapCubit.close);
+
     await tester.pumpWidget(
-      MaterialApp.router(
-        routerConfig: router,
-        supportedLocales: AppL10n.supportedLocales,
-        localizationsDelegates: const <LocalizationsDelegate<Object>>[
-          AppL10n.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
+      BlocProvider<BootstrapCubit>.value(
+        value: bootstrapCubit,
+        child: MaterialApp.router(
+          routerConfig: router,
+          supportedLocales: AppL10n.supportedLocales,
+          localizationsDelegates: const <LocalizationsDelegate<Object>>[
+            AppL10n.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+        ),
       ),
     );
-    await tester.pumpAndSettle();
+    if (settle) {
+      await tester.pumpAndSettle();
+    } else {
+      await tester.pump();
+    }
     return router;
   }
 
@@ -126,6 +162,8 @@ void main() {
 
       for (final AppRoute route in AppRoute.values) {
         if (protectedRoutes.contains(route)) continue;
+        // Route 1 is a real screen as of M0.7, not a placeholder.
+        if (route == AppRoute.bootstrap) continue;
 
         // Substitute a value for any path parameter.
         final String location = route.path
@@ -283,6 +321,8 @@ void main() {
         tester,
         auth: auth,
         initialLocation: AppRoute.home.path,
+        // The gate shows an indefinite spinner; do not wait for it to settle.
+        settle: false,
       );
 
       expect(currentPath(router), AppRoute.bootstrap.path);

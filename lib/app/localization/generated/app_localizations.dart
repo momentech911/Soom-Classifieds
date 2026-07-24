@@ -163,6 +163,24 @@ abstract class AppL10n {
   /// **'No internet connection.'**
   String get errorNoConnection;
 
+  /// Heading when the installed build is no longer supported.
+  ///
+  /// In en, this message translates to:
+  /// **'Update required'**
+  String get forceUpdateTitle;
+
+  /// Body of the blocking force-update screen.
+  ///
+  /// In en, this message translates to:
+  /// **'This version of SOOM is no longer supported. Please update to continue.'**
+  String get forceUpdateBody;
+
+  /// Shows installed versus required version.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {current}; {minimum} is required.'**
+  String forceUpdateVersions(String current, String minimum);
+
   /// Title of the RTL/LTR smoke-test screen.
   ///
   /// In en, this message translates to:
