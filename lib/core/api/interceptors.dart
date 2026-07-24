@@ -27,7 +27,12 @@ class AuthHeaderInterceptor extends Interceptor {
       options.headers['Authorization'] = 'Bearer $token';
     }
 
-    // The backend localizes validation and content by this header.
+    // The backend localizes by Content-Language, NOT Accept-Language.
+    // eClassify's ApiLocalizationMiddleware reads Content-Language and the
+    // SOOM API is adapted from it — sending the conventional Accept-Language
+    // would silently return English for Arabic users. Both are sent so the
+    // app still works if the backend is later corrected to the standard.
+    options.headers['Content-Language'] = localeCode();
     options.headers['Accept-Language'] = localeCode();
     options.headers['Accept'] = 'application/json';
 

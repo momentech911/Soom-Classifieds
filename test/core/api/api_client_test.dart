@@ -145,8 +145,11 @@ void main() {
       );
     });
 
-    test('sends the active locale so the backend localizes responses',
+    test('sends Content-Language, which is what the backend actually reads',
         () async {
+      // eClassify's ApiLocalizationMiddleware reads Content-Language, not the
+      // conventional Accept-Language. Getting this wrong returns English to
+      // Arabic users with no visible error, so it is pinned by a test.
       final _StubAdapter adapter = _StubAdapter(
         statusCode: 200,
         body: <String, Object>{'ok': true},
@@ -155,6 +158,8 @@ void main() {
 
       await client.get<Map<String, dynamic>>('/ping');
 
+      expect(adapter.received.single.headers['Content-Language'], 'ar');
+      // Also sent, so a future standards-compliant backend still works.
       expect(adapter.received.single.headers['Accept-Language'], 'ar');
     });
   });
@@ -248,6 +253,21 @@ void main() {
       );
     });
 
+    test('503 maps to maintenance, not a generic server error', () async {
+      // eClassify signals planned downtime with 503; it deserves its own
+      // screen rather than "something went wrong".
+      final _StubAdapter adapter = _StubAdapter(statusCode: 503);
+      final ApiClient client = buildClient(adapter: adapter);
+
+      try {
+        await client.get<Map<String, dynamic>>('/ping');
+        fail('should have thrown');
+      } on ApiException catch (e) {
+        expect(e.kind, ApiErrorKind.maintenance);
+        expect(e.isRetryable, isTrue);
+      }
+    });
+
     test('500 maps to server and is retryable', () async {
       final _StubAdapter adapter = _StubAdapter(statusCode: 500);
       final ApiClient client = buildClient(adapter: adapter);
@@ -338,11 +358,12 @@ void main() {
       expect(a, b);
     });
 
-    test('only connection, timeout and server are retryable', () {
+    test('only transient failures are retryable', () {
       for (final ApiErrorKind kind in ApiErrorKind.values) {
         final bool expected = kind == ApiErrorKind.noConnection ||
             kind == ApiErrorKind.timeout ||
-            kind == ApiErrorKind.server;
+            kind == ApiErrorKind.server ||
+            kind == ApiErrorKind.maintenance;
 
         expect(
           ApiException(kind: kind, message: '').isRetryable,

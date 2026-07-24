@@ -43,6 +43,8 @@ abstract final class ApiErrorMapper {
     if (status == 404) return ApiErrorKind.notFound;
     if (status == 422) return ApiErrorKind.validation;
     if (status == 429) return ApiErrorKind.rateLimited;
+    // 503 is planned downtime in eClassify's contract, not a crash.
+    if (status == 503) return ApiErrorKind.maintenance;
     if (status >= 500) return ApiErrorKind.server;
     return ApiErrorKind.unknown;
   }
@@ -88,6 +90,7 @@ abstract final class ApiErrorMapper {
         ApiErrorKind.notFound => 'Not found.',
         ApiErrorKind.validation => 'Please check the highlighted fields.',
         ApiErrorKind.rateLimited => 'Too many attempts. Please wait.',
+        ApiErrorKind.maintenance => 'SOOM is under maintenance.',
         ApiErrorKind.server => 'The server is having trouble.',
         ApiErrorKind.cancelled => 'The request was cancelled.',
         ApiErrorKind.unknown => 'Something went wrong.',

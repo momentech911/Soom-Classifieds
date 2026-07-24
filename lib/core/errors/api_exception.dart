@@ -26,7 +26,14 @@ enum ApiErrorKind {
   /// 429 — rate limited. Relevant to OTP requests.
   rateLimited,
 
-  /// 5xx.
+  /// 503 — backend is in maintenance mode.
+  ///
+  /// Distinct from [server]: eClassify signals planned downtime with 503 and
+  /// the SOOM API inherits that, so it warrants its own screen rather than a
+  /// generic error.
+  maintenance,
+
+  /// 5xx other than 503.
   server,
 
   /// Request was cancelled deliberately.
@@ -67,7 +74,8 @@ class ApiException extends Equatable implements Exception {
   bool get isRetryable =>
       kind == ApiErrorKind.noConnection ||
       kind == ApiErrorKind.timeout ||
-      kind == ApiErrorKind.server;
+      kind == ApiErrorKind.server ||
+      kind == ApiErrorKind.maintenance;
 
   /// Whether this should force the session to end.
   bool get requiresSignOut => kind == ApiErrorKind.unauthorized;
