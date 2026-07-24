@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:soom_mobile/app/localization/direction_demo_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:soom_mobile/app/localization/generated/app_localizations.dart';
 import 'package:soom_mobile/app/localization/locale_cubit.dart';
+import 'package:soom_mobile/app/router/app_router.dart';
 import 'package:soom_mobile/app/theme/app_theme.dart';
+import 'package:soom_mobile/core/auth/auth_state.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,29 +18,48 @@ Future<void> main() async {
     deviceLocale: WidgetsBinding.instance.platformDispatcher.locale,
   );
 
-  runApp(SoomApp(localeCubit: localeCubit));
+  runApp(SoomApp(localeCubit: localeCubit, auth: AuthStateNotifier()));
 }
 
 /// Root of the SOOM app.
-///
-/// Routing lands in M0.5, at which point `home:` becomes the router config.
-class SoomApp extends StatelessWidget {
-  const SoomApp({required this.localeCubit, super.key});
+class SoomApp extends StatefulWidget {
+  const SoomApp({required this.localeCubit, required this.auth, super.key});
 
   final LocaleCubit localeCubit;
+  final AuthStateNotifier auth;
+
+  @override
+  State<SoomApp> createState() => _SoomAppState();
+}
+
+class _SoomAppState extends State<SoomApp> {
+  late final GoRouter _router;
+
+  @override
+  void initState() {
+    super.initState();
+    // Built once and kept: rebuilding a GoRouter would drop the nav stack.
+    // It is locale-independent, so switching language does not disturb it.
+    _router = AppRouter.create(auth: widget.auth);
+  }
+
+  @override
+  void dispose() {
+    _router.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LocaleCubit>.value(
-      value: localeCubit,
+      value: widget.localeCubit,
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (BuildContext context, Locale locale) {
-          return MaterialApp(
+          return MaterialApp.router(
             title: 'SOOM',
             debugShowCheckedModeBanner: false,
 
-            // The theme is rebuilt per locale: the font family is resolved
-            // from it (Cairo for Arabic, Manrope for English).
+            // Rebuilt per locale: the font family is derived from it.
             theme: AppTheme.light(locale),
             darkTheme: AppTheme.dark(locale),
 
@@ -51,7 +72,7 @@ class SoomApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
 
-            home: const DirectionDemoScreen(),
+            routerConfig: _router,
           );
         },
       ),

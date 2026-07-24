@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:soom_mobile/app/localization/generated/app_localizations.dart';
+import 'package:soom_mobile/app/localization/locale_cubit.dart';
+import 'package:soom_mobile/app/theme/app_theme.dart';
+
+/// Test helpers for pumping widgets with SOOM's theme and localization.
+
+/// A [LocaleCubit] backed by a mock store, already loaded to [languageCode].
+Future<LocaleCubit> localeCubitFor(String languageCode) async {
+  SharedPreferences.setMockInitialValues(<String, Object>{
+    'app_locale': languageCode,
+  });
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final LocaleCubit cubit = LocaleCubit(preferences: prefs);
+  await cubit.load();
+  return cubit;
+}
+
+/// Pumps [child] inside a themed, localized [MaterialApp].
+///
+/// Use this to test a single screen in isolation — it gives the real theme,
+/// the real localizations and correct [Directionality], without the router.
+Future<LocaleCubit> pumpLocalized(
+  WidgetTester tester,
+  Widget child, {
+  String languageCode = 'en',
+  LocaleCubit? cubit,
+}) async {
+  final LocaleCubit localeCubit = cubit ?? await localeCubitFor(languageCode);
+
+  await tester.pumpWidget(
+    BlocProvider<LocaleCubit>.value(
+      value: localeCubit,
+      child: BlocBuilder<LocaleCubit, Locale>(
+        builder: (BuildContext context, Locale locale) {
+          return MaterialApp(
+            theme: AppTheme.light(locale),
+            darkTheme: AppTheme.dark(locale),
+            locale: locale,
+            supportedLocales: AppLocales.supported,
+            localizationsDelegates: const <LocalizationsDelegate<Object>>[
+              AppL10n.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            home: child,
+          );
+        },
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
+
+  return localeCubit;
+}
