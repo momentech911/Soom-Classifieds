@@ -21,10 +21,12 @@ vendor/
 | **Version** | `2.6.0+29` (per the template's own `pubspec.yaml`) |
 | **Contents** | 305 Dart files under `lib/` — `data/{cubits,helper,model,repositories}`, `ui/screens` — plus `android/`, `ios/`, `assets/`, and desktop shells |
 | **Source** | CodeCanyon / Envato purchase |
-| **Licence ref** | _TODO — record the Envato purchase code / licence certificate here._ |
+| **Licence ref** | Envato purchase code — held in `vendor/LICENSE.local.md` (gitignored) |
 
-> The licence reference is left blank rather than guessed. Fill it in from the
-> Envato purchase record; `VENDOR_PORTS.md` cites it on every ported row.
+> The purchase code itself is **deliberately not in this file.** It is a licence
+> credential tied to the owner's Envato account, and this repository is public.
+> It lives in `vendor/LICENSE.local.md`, which is gitignored and never leaves the
+> machine. Cite it in `VENDOR_PORTS.md` as *"Envato purchase code"* — never the value.
 
 ## Restoring it on a fresh clone
 

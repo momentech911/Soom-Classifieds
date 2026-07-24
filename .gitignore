@@ -26,6 +26,14 @@ android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
 lib/firebase_options.dart
 
+# Local-only secrets: licence keys, purchase codes, machine-specific config.
+# Defence in depth — anything named *.local.* stays out regardless of location.
+*.local.md
+*.local.json
+*.local.yaml
+.env
+.env.*
+
 # OS
 .DS_Store
 Thumbs.db
