@@ -1,0 +1,51 @@
+# SOOM Mobile — static analysis configuration.
+#
+# Base: the recommended Flutter lint set. On top of it we turn on the analyzer's
+# strict language modes and a small set of extra lints that reinforce the golden
+# rules in CLAUDE.md (typed everything, no stray prints, prefer const, etc.).
+#
+# Run with: flutter analyze
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  # Treat unsafe implicit casts / dynamic inference as errors rather than silent
+  # holes — keeps the typed-model discipline the project depends on.
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
+  errors:
+    # Missing localization / hardcoded-string-adjacent issues should never be
+    # merged silently once they appear.
+    todo: ignore
+
+  exclude:
+    # Vendor reference is read-only and never shipped (golden rule #1).
+    - vendor/**
+    # Generated sources (json_serializable, freezed, l10n, etc.).
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.gr.dart"
+    - "**/generated_plugin_registrant.dart"
+    - "lib/**/l10n/**"
+
+linter:
+  rules:
+    # Correctness / safety
+    always_use_package_imports: true
+    avoid_dynamic_calls: true
+    avoid_print: true
+    cancel_subscriptions: true
+    close_sinks: true
+    unawaited_futures: true
+
+    # Consistency / readability
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_declarations: true
+    prefer_final_locals: true
+    prefer_single_quotes: true
+    require_trailing_commas: true
+    sort_child_properties_last: true
+    use_key_in_widget_constructors: true

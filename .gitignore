@@ -1,0 +1,36 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+*.iml
+.idea/
+.vscode/
+
+# Android
+android/local.properties
+android/.gradle/
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json
+
+# Firebase secrets — do NOT commit to a public repo
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vendor reference is kept local, never shipped
+vendor/
+# Full eClassify reference (kept at project root) — never shipped
+../vendor-eclassify-full/
