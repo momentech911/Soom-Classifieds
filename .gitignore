@@ -30,7 +30,11 @@ lib/firebase_options.dart
 .DS_Store
 Thumbs.db
 
-# Vendor reference is kept local, never shipped
-vendor/
-# Full eClassify reference (kept at project root) — never shipped
-../vendor-eclassify-full/
+# Vendor reference — purchased eClassify template. Kept local, NEVER committed
+# or shipped (this repo is public; the template is licensed, not redistributable).
+# vendor/README.md is the one exception: it documents what belongs here.
+vendor/*
+!vendor/README.md
+#
+# Note: the complete eClassify package lives at SOOM_Project/vendor-eclassify-full/,
+# outside this repo, so it can never be committed here. See vendor/README.md.
