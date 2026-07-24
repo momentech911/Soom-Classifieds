@@ -29,6 +29,9 @@ analyzer:
     - "**/*.gr.dart"
     - "**/generated_plugin_registrant.dart"
     - "lib/**/l10n/**"
+    # gen-l10n output — committed so CI needs no codegen step, but it is
+    # generated code and does not follow our lint rules.
+    - "lib/app/localization/generated/**"
 
 linter:
   rules:

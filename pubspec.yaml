@@ -64,6 +64,9 @@ flutter:
 
   uses-material-design: true
 
+  # Required for gen-l10n (see l10n.yaml).
+  generate: true
+
   # Brand fonts — see lib/app/theme/app_typography.dart.
   #
   # Arabic renders in Cairo, English in Manrope; the theme picks the family

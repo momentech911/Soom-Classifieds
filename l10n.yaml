@@ -1,0 +1,10 @@
+# Localization codegen config — see lib/app/localization/.
+#
+# Generated files are committed so `flutter analyze` and CI work without a
+# codegen step. Regenerate with `flutter gen-l10n` after editing an .arb file.
+arb-dir: lib/app/localization/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppL10n
+output-dir: lib/app/localization/generated
+nullable-getter: false

@@ -1,0 +1,27 @@
+{
+  "@@locale": "ar",
+
+  "appName": "سوم",
+  "languageName": "العربية",
+
+  "commonNext": "التالي",
+  "commonBack": "رجوع",
+  "commonCancel": "إلغاء",
+  "commonSave": "حفظ",
+  "commonRetry": "إعادة المحاولة",
+  "commonSearch": "ابحث في سوم",
+
+  "settingsLanguage": "اللغة",
+
+  "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+  "errorNoConnection": "لا يوجد اتصال بالإنترنت.",
+
+  "directionDemoTitle": "فحص الاتجاه",
+  "directionDemoBody": "يجب أن تبدأ هذه الفقرة من الحافة الأمامية: اليسار في الإنجليزية واليمين في العربية. ويجب أن تنعكس الأيقونة والسهم أدناه معها.",
+  "directionDemoCurrentLocale": "اللغة الحالية: {locale}",
+  "directionDemoDirection": "اتجاه النص: {direction}",
+
+  "listingCountLabel": "{count, plural, =0{لا توجد إعلانات} =1{إعلان واحد} =2{إعلانان} few{{count} إعلانات} many{{count} إعلانًا} other{{count} إعلان}}",
+
+  "priceQar": "{amount} ر.ق"
+}

@@ -1,0 +1,103 @@
+{
+  "@@locale": "en",
+
+  "appName": "SOOM",
+  "@appName": {
+    "description": "The product name. Not translated — brand."
+  },
+
+  "languageName": "English",
+  "@languageName": {
+    "description": "This language's own name, shown in the language picker."
+  },
+
+  "commonNext": "Next",
+  "@commonNext": {
+    "description": "Advance to the next step."
+  },
+  "commonBack": "Back",
+  "@commonBack": {
+    "description": "Return to the previous step."
+  },
+  "commonCancel": "Cancel",
+  "@commonCancel": {
+    "description": "Dismiss without saving."
+  },
+  "commonSave": "Save",
+  "@commonSave": {
+    "description": "Persist changes."
+  },
+  "commonRetry": "Try again",
+  "@commonRetry": {
+    "description": "Retry a failed action."
+  },
+  "commonSearch": "Search SOOM",
+  "@commonSearch": {
+    "description": "Placeholder in the main search field."
+  },
+
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "Language setting row label."
+  },
+
+  "errorGeneric": "Something went wrong. Please try again.",
+  "@errorGeneric": {
+    "description": "Fallback message for an unexpected failure."
+  },
+  "errorNoConnection": "No internet connection.",
+  "@errorNoConnection": {
+    "description": "Shown when the device is offline."
+  },
+
+  "directionDemoTitle": "Direction check",
+  "@directionDemoTitle": {
+    "description": "Title of the RTL/LTR smoke-test screen."
+  },
+  "directionDemoBody": "This paragraph should start on the leading edge: left in English, right in Arabic. The icon and chevron below must mirror with it.",
+  "@directionDemoBody": {
+    "description": "Body copy used to verify text direction visually."
+  },
+  "directionDemoCurrentLocale": "Active locale: {locale}",
+  "@directionDemoCurrentLocale": {
+    "description": "Shows which locale is active.",
+    "placeholders": {
+      "locale": {
+        "type": "String",
+        "example": "ar"
+      }
+    }
+  },
+  "directionDemoDirection": "Text direction: {direction}",
+  "@directionDemoDirection": {
+    "description": "Shows the resolved text direction.",
+    "placeholders": {
+      "direction": {
+        "type": "String",
+        "example": "RTL"
+      }
+    }
+  },
+
+  "listingCountLabel": "{count, plural, =0{No listings} =1{1 listing} other{{count} listings}}",
+  "@listingCountLabel": {
+    "description": "Plural-aware listing count. Arabic needs the full plural set (zero/one/two/few/many/other), which is why this is a plural message rather than string concatenation.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+
+  "priceQar": "QAR {amount}",
+  "@priceQar": {
+    "description": "Price with the Qatari riyal prefix. Qatar is fixed, so the currency is not configurable.",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "4,500"
+      }
+    }
+  }
+}
