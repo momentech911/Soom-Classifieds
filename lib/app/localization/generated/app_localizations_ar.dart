@@ -54,6 +54,16 @@ class AppL10nAr extends AppL10n {
   }
 
   @override
+  String get forceUpdateAction => 'التحديث الآن';
+
+  @override
+  String get maintenanceTitle => 'قيد الصيانة';
+
+  @override
+  String get maintenanceBody =>
+      'سوم غير متاح مؤقتًا بينما نجري بعض التحسينات. يرجى المحاولة بعد قليل.';
+
+  @override
   String get directionDemoTitle => 'فحص الاتجاه';
 
   @override

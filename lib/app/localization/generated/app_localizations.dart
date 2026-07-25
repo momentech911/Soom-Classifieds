@@ -181,6 +181,24 @@ abstract class AppL10n {
   /// **'You have {current}; {minimum} is required.'**
   String forceUpdateVersions(String current, String minimum);
 
+  /// Button that opens the app store listing.
+  ///
+  /// In en, this message translates to:
+  /// **'Update now'**
+  String get forceUpdateAction;
+
+  /// Heading when the backend reports planned downtime.
+  ///
+  /// In en, this message translates to:
+  /// **'Under maintenance'**
+  String get maintenanceTitle;
+
+  /// Body of the maintenance screen.
+  ///
+  /// In en, this message translates to:
+  /// **'SOOM is briefly unavailable while we make improvements. Please try again shortly.'**
+  String get maintenanceBody;
+
   /// Title of the RTL/LTR smoke-test screen.
   ///
   /// In en, this message translates to:

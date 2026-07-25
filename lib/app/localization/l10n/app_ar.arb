@@ -20,6 +20,10 @@
   "forceUpdateBody": "هذا الإصدار من سوم لم يعد مدعومًا. يرجى التحديث للمتابعة.",
   "forceUpdateVersions": "لديك {current}، والمطلوب {minimum}.",
 
+  "forceUpdateAction": "التحديث الآن",
+  "maintenanceTitle": "قيد الصيانة",
+  "maintenanceBody": "سوم غير متاح مؤقتًا بينما نجري بعض التحسينات. يرجى المحاولة بعد قليل.",
+
   "directionDemoTitle": "فحص الاتجاه",
   "directionDemoBody": "يجب أن تبدأ هذه الفقرة من الحافة الأمامية: اليسار في الإنجليزية واليمين في العربية. ويجب أن تنعكس الأيقونة والسهم أدناه معها.",
   "directionDemoCurrentLocale": "اللغة الحالية: {locale}",

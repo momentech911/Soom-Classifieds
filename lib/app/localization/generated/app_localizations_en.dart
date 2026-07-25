@@ -54,6 +54,16 @@ class AppL10nEn extends AppL10n {
   }
 
   @override
+  String get forceUpdateAction => 'Update now';
+
+  @override
+  String get maintenanceTitle => 'Under maintenance';
+
+  @override
+  String get maintenanceBody =>
+      'SOOM is briefly unavailable while we make improvements. Please try again shortly.';
+
+  @override
   String get directionDemoTitle => 'Direction check';
 
   @override

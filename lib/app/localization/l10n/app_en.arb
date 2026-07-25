@@ -73,6 +73,19 @@
     }
   },
 
+  "forceUpdateAction": "Update now",
+  "@forceUpdateAction": {
+    "description": "Button that opens the app store listing."
+  },
+  "maintenanceTitle": "Under maintenance",
+  "@maintenanceTitle": {
+    "description": "Heading when the backend reports planned downtime."
+  },
+  "maintenanceBody": "SOOM is briefly unavailable while we make improvements. Please try again shortly.",
+  "@maintenanceBody": {
+    "description": "Body of the maintenance screen."
+  },
+
   "directionDemoTitle": "Direction check",
   "@directionDemoTitle": {
     "description": "Title of the RTL/LTR smoke-test screen."

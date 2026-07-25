@@ -12,8 +12,24 @@ See [`vendor/README.md`](vendor/README.md) for the reference itself.
 
 | # | Date | Source (vendor path) | Destination (soom path) | What was reused | Changes made | Licence ref | Reviewer |
 |---|------|----------------------|-------------------------|-----------------|--------------|-------------|----------|
+| 1 | 2026-07-25 | `soom-api/vendor/.../app/Http/Middleware/ApiLocalizationMiddleware.php` | `lib/core/api/interceptors.dart` | The locale header name — backend reads `Content-Language`, not `Accept-Language` | Client now sends both; pinned by a test | Envato purchase code | Moe Eldawo |
+| 2 | 2026-07-25 | `vendor/.../lib/utils/api.dart` | `lib/core/api/api_error_mapper.dart` | 503 = planned maintenance, not a server crash | Own `ApiErrorKind.maintenance`; gate shows a retryable maintenance screen | Envato purchase code | Moe Eldawo |
+| 3 | 2026-07-25 | `vendor/.../lib/data/model/system_settings_model.dart` | `lib/app/bootstrap/system_settings.dart` | Startup settings contract: `maintenance_mode`, `force_update`, per-platform `android_version`/`ios_version`, store links | Typed model, only the six startup keys, tolerates Laravel string booleans | Envato purchase code | Moe Eldawo |
+| 4 | 2026-07-25 | `soom-api/vendor/.../routes/api.php` | `soom-docs/eClassify_API_Contract.md` | The 68-endpoint inventory — the real API surface | Documented, classified MVP vs drop; no code | Envato purchase code | Moe Eldawo |
 
-_No ports yet — the register is empty as of 25 July 2026 (M0.2)._
+## Evaluated and deliberately not ported
+
+Recording rejections matters as much as ports: it stops the same source being
+re-evaluated every phase, and it makes "we built this ourselves" a decision
+rather than an oversight.
+
+| Source | Why not |
+|---|---|
+| `lib/app/routes.dart` (315 lines, 55 `case`s) | This is the global named-route switch golden rule #3 forbids. SOOM uses typed `go_router`. |
+| `lib/utils/api.dart` (415 lines) | Imports six cubits into the network layer, `dynamic` error type, same 401/503 block repeated three times, bundles Google Places + Twilio. Contract taken (rows 1, 2), code not. |
+| `lib/app/app_theme.dart`, `lib/ui/theme/` | Wrong brand. SOOM's palette comes from `05_Design_Tokens.md`. |
+| Localization (`assets/languages/`, `fetch_language_cubit`) | Server-driven runtime JSON; SOOM requires typed compile-time keys. The vendor folder is empty anyway. |
+| `lib/ui/screens/splash_screen.dart` | Maintenance-mode *behaviour* was taken (row 2); the screen itself is tied to the template's navigation and settings singletons. |
 
 Copy this template for each new row:
 

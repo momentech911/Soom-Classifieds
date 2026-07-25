@@ -26,7 +26,7 @@ void main() {
             statusCode: 200,
             body: <String, Object>{'status': 'ok'},
           ),
-          '/config': const StubResponse(
+          '/system/settings': const StubResponse(
             statusCode: 200,
             body: <String, Object>{},
           ),
@@ -97,7 +97,7 @@ void main() {
     expect(find.text(AppRoute.home.routeName), findsNothing);
   });
 
-  testWidgets('force update blocks with no way past it', (
+  testWidgets('force update blocks with no way past it but a store link', (
     WidgetTester tester,
   ) async {
     final StubAdapter adapter = StubAdapter(
@@ -106,9 +106,13 @@ void main() {
           statusCode: 200,
           body: <String, Object>{'status': 'ok'},
         ),
-        '/config': const StubResponse(
+        '/system/settings': const StubResponse(
           statusCode: 200,
-          body: <String, Object>{'minimum_supported_version': '9.9.9'},
+          body: <String, Object>{
+            'force_update': true,
+            'android_version': '9.9.9',
+            'play_store_link': 'https://play.google.com/store/apps/details?id=qa.soom',
+          },
         ),
       },
     );
@@ -117,8 +121,34 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Update required'), findsOneWidget);
-    // No retry and no route change — the screen is a dead end by design.
+    // A dead end by design: no retry, no route change — but the update button
+    // must be present, or the user is told to update with no way to do it.
     expect(find.text('Try again'), findsNothing);
+    expect(find.text(AppRoute.home.routeName), findsNothing);
+    expect(find.text('Update now'), findsOneWidget);
+  });
+
+  testWidgets('maintenance mode holds the user with a retry', (
+    WidgetTester tester,
+  ) async {
+    final StubAdapter adapter = StubAdapter(
+      routes: <String, StubResponse>{
+        '/health': const StubResponse(
+          statusCode: 200,
+          body: <String, Object>{'status': 'ok'},
+        ),
+        '/system/settings': const StubResponse(
+          statusCode: 200,
+          body: <String, Object>{'maintenance_mode': true},
+        ),
+      },
+    );
+
+    await tester.pumpWidget(await buildApp(adapter: adapter));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Under maintenance'), findsOneWidget);
+    expect(find.text('Try again'), findsOneWidget);
     expect(find.text(AppRoute.home.routeName), findsNothing);
   });
 }

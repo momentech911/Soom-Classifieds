@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:soom_mobile/app/bootstrap/system_settings.dart';
 
 /// How the startup gate ended.
 enum BootstrapStatus {
@@ -7,6 +8,9 @@ enum BootstrapStatus {
 
   /// A mandatory update blocks use of the app.
   forceUpdateRequired,
+
+  /// Backend is in planned maintenance.
+  maintenance,
 
   /// The backend could not be reached. Offer a retry.
   backendUnreachable,
@@ -21,7 +25,9 @@ class BootstrapState extends Equatable {
     this.status = BootstrapStatus.inProgress,
     this.isFirstRun = false,
     this.appVersion,
-    this.minimumSupportedVersion,
+    this.settings = const SystemSettings(),
+    this.requiredVersion,
+    this.storeLink,
   });
 
   final BootstrapStatus status;
@@ -32,27 +38,45 @@ class BootstrapState extends Equatable {
   /// This build's version, e.g. `1.0.0`.
   final String? appVersion;
 
-  /// Oldest version the backend still accepts, when it reports one.
-  final String? minimumSupportedVersion;
+  /// Backend-controlled startup settings.
+  final SystemSettings settings;
 
   /// Whether the app may continue to its normal routes.
   bool get canProceed => status == BootstrapStatus.ready;
 
   /// Whether the failure is worth offering a retry for.
-  bool get isRetryable => status == BootstrapStatus.backendUnreachable;
+  ///
+  /// Maintenance is retryable — it ends on its own. A force update is not:
+  /// retrying cannot change the installed version.
+  bool get isRetryable =>
+      status == BootstrapStatus.backendUnreachable ||
+      status == BootstrapStatus.maintenance;
+
+  /// Minimum version required on the running platform, if any.
+  ///
+  /// Resolved by the cubit, which knows the platform — the state deliberately
+  /// does no platform lookup of its own, so it stays a plain value object and
+  /// tests can drive any platform.
+  final String? requiredVersion;
+
+  /// Where to send the user to update, if the backend supplied a link.
+  final String? storeLink;
 
   BootstrapState copyWith({
     BootstrapStatus? status,
     bool? isFirstRun,
     String? appVersion,
-    String? minimumSupportedVersion,
+    SystemSettings? settings,
+    String? requiredVersion,
+    String? storeLink,
   }) {
     return BootstrapState(
       status: status ?? this.status,
       isFirstRun: isFirstRun ?? this.isFirstRun,
       appVersion: appVersion ?? this.appVersion,
-      minimumSupportedVersion:
-          minimumSupportedVersion ?? this.minimumSupportedVersion,
+      settings: settings ?? this.settings,
+      requiredVersion: requiredVersion ?? this.requiredVersion,
+      storeLink: storeLink ?? this.storeLink,
     );
   }
 
@@ -61,6 +85,8 @@ class BootstrapState extends Equatable {
         status,
         isFirstRun,
         appVersion,
-        minimumSupportedVersion,
+        settings,
+        requiredVersion,
+        storeLink,
       ];
 }
