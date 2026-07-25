@@ -12,7 +12,11 @@ abstract final class AppLocales {
   static const List<Locale> supported = <Locale>[arabic, english];
 
   /// Used when the device locale is neither Arabic nor English.
-  static const Locale fallback = english;
+  ///
+  /// **Arabic, not English.** PRD v2.0 §1: "Arabic and English are first-class
+  /// from the first build, with Arabic as default and fallback." A visitor on
+  /// a French or Urdu handset — common in Qatar — gets Arabic, not English.
+  static const Locale fallback = arabic;
 
   /// Whether [code] is a language we support.
   static bool isSupported(String code) =>

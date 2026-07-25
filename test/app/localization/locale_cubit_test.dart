@@ -51,12 +51,15 @@ void main() {
       expect(cubit.state, AppLocales.arabic);
     });
 
-    test('uses English when the device locale is unsupported', () async {
+    test('falls back to ARABIC when the device locale is unsupported',
+        () async {
+      // PRD v2.0: Arabic is default and fallback, not English. A French or
+      // Urdu handset — common in Qatar — must land on Arabic.
       final LocaleCubit cubit = await buildCubit();
 
       await cubit.load(deviceLocale: const Locale('fr'));
 
-      expect(cubit.state, AppLocales.english);
+      expect(cubit.state, AppLocales.arabic);
     });
 
     test('ignores a saved value that is no longer supported', () async {
@@ -66,6 +69,16 @@ void main() {
       final LocaleCubit cubit = await buildCubit();
 
       await cubit.load(deviceLocale: const Locale('fr'));
+
+      expect(cubit.state, AppLocales.arabic);
+    });
+
+    test('an English device still gets English', () async {
+      // Fallback only applies to unsupported locales — it must not override
+      // an explicit English device.
+      final LocaleCubit cubit = await buildCubit();
+
+      await cubit.load(deviceLocale: const Locale('en'));
 
       expect(cubit.state, AppLocales.english);
     });
