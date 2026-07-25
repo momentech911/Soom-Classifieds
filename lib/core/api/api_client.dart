@@ -107,6 +107,10 @@ class ApiClient {
 
   /// Backend liveness check — the Phase 0 gate calls this.
   ///
+  /// Hits `/api/v1/health`, served by `HealthController::index` in soom-api.
+  /// That endpoint touches no dependencies deliberately, so this stays cheap.
+  /// `/health/ready` is the deeper check (database + Redis) for deploy tooling.
+  ///
   /// Returns true only on a clean 2xx; any failure means "not reachable".
   Future<bool> healthCheck() async {
     try {

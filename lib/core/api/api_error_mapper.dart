@@ -31,7 +31,7 @@ abstract final class ApiErrorMapper {
       kind: kind,
       statusCode: status,
       message: _messageFrom(body) ?? _defaultMessage(kind),
-      code: body?['code'] as String?,
+      code: _codeFrom(body),
       fieldErrors: _fieldErrorsFrom(body),
     );
   }
@@ -59,6 +59,20 @@ abstract final class ApiErrorMapper {
 
   static Map<String, dynamic>? _asMap(Object? data) =>
       data is Map<String, dynamic> ? data : null;
+
+  /// Reads the error code as a string, whatever type it arrives as.
+  ///
+  /// SOOM's v1 surface returns stable string codes (`VALIDATION_ERROR`), but
+  /// eClassify's legacy surface returns integers (`103`). A plain
+  /// `as String?` cast throws a TypeError on the integer — inside the error
+  /// mapper, so a recoverable API error would surface as a crash.
+  static String? _codeFrom(Map<String, dynamic>? body) {
+    final Object? code = body?['code'];
+    if (code == null) return null;
+
+    final String text = code.toString().trim();
+    return text.isEmpty ? null : text;
+  }
 
   static String? _messageFrom(Map<String, dynamic>? body) {
     final Object? message = body?['message'];

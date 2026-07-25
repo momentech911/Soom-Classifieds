@@ -294,6 +294,25 @@ void main() {
       }
     });
 
+    test('a numeric legacy error code does not crash the mapper', () async {
+      // SOOM v1 returns string codes, but eClassify's legacy surface returns
+      // integers. Casting straight to String would throw inside the error
+      // mapper, turning a recoverable API error into a crash.
+      final _StubAdapter adapter = _StubAdapter(
+        statusCode: 500,
+        body: <String, Object>{'message': 'Boom.', 'code': 103},
+      );
+      final ApiClient client = buildClient(adapter: adapter);
+
+      try {
+        await client.get<Map<String, dynamic>>('/ping');
+        fail('should have thrown');
+      } on ApiException catch (e) {
+        expect(e.kind, ApiErrorKind.server);
+        expect(e.code, '103');
+      }
+    });
+
     test('the backend stable error code is preserved', () async {
       final _StubAdapter adapter = _StubAdapter(
         statusCode: 403,
