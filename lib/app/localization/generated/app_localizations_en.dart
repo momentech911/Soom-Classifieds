@@ -54,6 +54,51 @@ class AppL10nEn extends AppL10n {
   }
 
   @override
+  String get loginTitle => 'Enter your phone number';
+
+  @override
+  String get loginSubtitle => 'We\'ll send you a verification code by SMS.';
+
+  @override
+  String get loginPhoneLabel => 'Mobile number';
+
+  @override
+  String get loginPhoneHint => '5512 3456';
+
+  @override
+  String get loginContinue => 'Continue';
+
+  @override
+  String get loginGuestNote =>
+      'You can keep browsing without an account. Signing in is only needed to post, chat, or save favourites.';
+
+  @override
+  String get loginTermsNote =>
+      'By continuing you agree to our Terms of Use and Privacy Policy.';
+
+  @override
+  String get loginErrorTooShort => 'Enter all 8 digits of your number.';
+
+  @override
+  String get loginErrorTooLong => 'A Qatar mobile number has 8 digits.';
+
+  @override
+  String get loginErrorNotMobile =>
+      'Enter a Qatar mobile number starting with 3, 5, 6 or 7.';
+
+  @override
+  String get loginErrorEmpty => 'Enter your mobile number.';
+
+  @override
+  String get loginErrorRateLimited =>
+      'Too many attempts. Please try again shortly.';
+
+  @override
+  String loginErrorRateLimitedIn(int seconds) {
+    return 'Too many attempts. Try again in $seconds seconds.';
+  }
+
+  @override
   String get forceUpdateAction => 'Update now';
 
   @override

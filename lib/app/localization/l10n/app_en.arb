@@ -73,6 +73,66 @@
     }
   },
 
+  "loginTitle": "Enter your phone number",
+  "@loginTitle": {
+    "description": "Heading on the phone login screen (S02)."
+  },
+  "loginSubtitle": "We'll send you a verification code by SMS.",
+  "@loginSubtitle": {
+    "description": "Explanation under the login heading."
+  },
+  "loginPhoneLabel": "Mobile number",
+  "@loginPhoneLabel": {
+    "description": "Label for the phone field."
+  },
+  "loginPhoneHint": "5512 3456",
+  "@loginPhoneHint": {
+    "description": "Placeholder showing the expected 8-digit format. Not translated — it is a number."
+  },
+  "loginContinue": "Continue",
+  "@loginContinue": {
+    "description": "Primary action: request the OTP."
+  },
+  "loginGuestNote": "You can keep browsing without an account. Signing in is only needed to post, chat, or save favourites.",
+  "@loginGuestNote": {
+    "description": "Reassures the user that browsing does not require login."
+  },
+  "loginTermsNote": "By continuing you agree to our Terms of Use and Privacy Policy.",
+  "@loginTermsNote": {
+    "description": "Terms and privacy notice shown above the Continue button."
+  },
+
+  "loginErrorTooShort": "Enter all 8 digits of your number.",
+  "@loginErrorTooShort": {
+    "description": "Validation: fewer than 8 digits entered."
+  },
+  "loginErrorTooLong": "A Qatar mobile number has 8 digits.",
+  "@loginErrorTooLong": {
+    "description": "Validation: more than 8 digits entered."
+  },
+  "loginErrorNotMobile": "Enter a Qatar mobile number starting with 3, 5, 6 or 7.",
+  "@loginErrorNotMobile": {
+    "description": "Validation: valid length but not a mobile prefix. Landlines start with 4 and cannot receive SMS."
+  },
+  "loginErrorEmpty": "Enter your mobile number.",
+  "@loginErrorEmpty": {
+    "description": "Validation: nothing entered."
+  },
+  "loginErrorRateLimited": "Too many attempts. Please try again shortly.",
+  "@loginErrorRateLimited": {
+    "description": "Backend rejected the request as rate limited."
+  },
+  "loginErrorRateLimitedIn": "Too many attempts. Try again in {seconds} seconds.",
+  "@loginErrorRateLimitedIn": {
+    "description": "Rate limited, with a known wait.",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": "60"
+      }
+    }
+  },
+
   "forceUpdateAction": "Update now",
   "@forceUpdateAction": {
     "description": "Button that opens the app store listing."

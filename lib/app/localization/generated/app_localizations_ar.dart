@@ -54,6 +54,50 @@ class AppL10nAr extends AppL10n {
   }
 
   @override
+  String get loginTitle => 'أدخل رقم هاتفك';
+
+  @override
+  String get loginSubtitle => 'سنرسل لك رمز التحقق عبر رسالة نصية.';
+
+  @override
+  String get loginPhoneLabel => 'رقم الجوال';
+
+  @override
+  String get loginPhoneHint => '5512 3456';
+
+  @override
+  String get loginContinue => 'متابعة';
+
+  @override
+  String get loginGuestNote =>
+      'يمكنك التصفح بدون حساب. تسجيل الدخول مطلوب فقط للنشر والمحادثة وحفظ المفضلة.';
+
+  @override
+  String get loginTermsNote =>
+      'بالمتابعة فإنك توافق على شروط الاستخدام وسياسة الخصوصية.';
+
+  @override
+  String get loginErrorTooShort => 'أدخل جميع أرقام الهاتف الثمانية.';
+
+  @override
+  String get loginErrorTooLong => 'رقم الجوال القطري مكوّن من ٨ أرقام.';
+
+  @override
+  String get loginErrorNotMobile =>
+      'أدخل رقم جوال قطري يبدأ بـ ٣ أو ٥ أو ٦ أو ٧.';
+
+  @override
+  String get loginErrorEmpty => 'أدخل رقم جوالك.';
+
+  @override
+  String get loginErrorRateLimited => 'محاولات كثيرة. يرجى المحاولة بعد قليل.';
+
+  @override
+  String loginErrorRateLimitedIn(int seconds) {
+    return 'محاولات كثيرة. حاول مرة أخرى خلال $seconds ثانية.';
+  }
+
+  @override
   String get forceUpdateAction => 'التحديث الآن';
 
   @override

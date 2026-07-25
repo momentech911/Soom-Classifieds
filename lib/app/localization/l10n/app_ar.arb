@@ -20,6 +20,21 @@
   "forceUpdateBody": "هذا الإصدار من سوم لم يعد مدعومًا. يرجى التحديث للمتابعة.",
   "forceUpdateVersions": "لديك {current}، والمطلوب {minimum}.",
 
+  "loginTitle": "أدخل رقم هاتفك",
+  "loginSubtitle": "سنرسل لك رمز التحقق عبر رسالة نصية.",
+  "loginPhoneLabel": "رقم الجوال",
+  "loginPhoneHint": "5512 3456",
+  "loginContinue": "متابعة",
+  "loginGuestNote": "يمكنك التصفح بدون حساب. تسجيل الدخول مطلوب فقط للنشر والمحادثة وحفظ المفضلة.",
+  "loginTermsNote": "بالمتابعة فإنك توافق على شروط الاستخدام وسياسة الخصوصية.",
+
+  "loginErrorTooShort": "أدخل جميع أرقام الهاتف الثمانية.",
+  "loginErrorTooLong": "رقم الجوال القطري مكوّن من ٨ أرقام.",
+  "loginErrorNotMobile": "أدخل رقم جوال قطري يبدأ بـ ٣ أو ٥ أو ٦ أو ٧.",
+  "loginErrorEmpty": "أدخل رقم جوالك.",
+  "loginErrorRateLimited": "محاولات كثيرة. يرجى المحاولة بعد قليل.",
+  "loginErrorRateLimitedIn": "محاولات كثيرة. حاول مرة أخرى خلال {seconds} ثانية.",
+
   "forceUpdateAction": "التحديث الآن",
   "maintenanceTitle": "قيد الصيانة",
   "maintenanceBody": "سوم غير متاح مؤقتًا بينما نجري بعض التحسينات. يرجى المحاولة بعد قليل.",

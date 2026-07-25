@@ -181,6 +181,84 @@ abstract class AppL10n {
   /// **'You have {current}; {minimum} is required.'**
   String forceUpdateVersions(String current, String minimum);
 
+  /// Heading on the phone login screen (S02).
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get loginTitle;
+
+  /// Explanation under the login heading.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll send you a verification code by SMS.'**
+  String get loginSubtitle;
+
+  /// Label for the phone field.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile number'**
+  String get loginPhoneLabel;
+
+  /// Placeholder showing the expected 8-digit format. Not translated — it is a number.
+  ///
+  /// In en, this message translates to:
+  /// **'5512 3456'**
+  String get loginPhoneHint;
+
+  /// Primary action: request the OTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get loginContinue;
+
+  /// Reassures the user that browsing does not require login.
+  ///
+  /// In en, this message translates to:
+  /// **'You can keep browsing without an account. Signing in is only needed to post, chat, or save favourites.'**
+  String get loginGuestNote;
+
+  /// Terms and privacy notice shown above the Continue button.
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing you agree to our Terms of Use and Privacy Policy.'**
+  String get loginTermsNote;
+
+  /// Validation: fewer than 8 digits entered.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter all 8 digits of your number.'**
+  String get loginErrorTooShort;
+
+  /// Validation: more than 8 digits entered.
+  ///
+  /// In en, this message translates to:
+  /// **'A Qatar mobile number has 8 digits.'**
+  String get loginErrorTooLong;
+
+  /// Validation: valid length but not a mobile prefix. Landlines start with 4 and cannot receive SMS.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a Qatar mobile number starting with 3, 5, 6 or 7.'**
+  String get loginErrorNotMobile;
+
+  /// Validation: nothing entered.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your mobile number.'**
+  String get loginErrorEmpty;
+
+  /// Backend rejected the request as rate limited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please try again shortly.'**
+  String get loginErrorRateLimited;
+
+  /// Rate limited, with a known wait.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again in {seconds} seconds.'**
+  String loginErrorRateLimitedIn(int seconds);
+
   /// Button that opens the app store listing.
   ///
   /// In en, this message translates to:

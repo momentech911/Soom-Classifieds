@@ -160,10 +160,16 @@ void main() {
     ) async {
       final AuthStateNotifier auth = AuthStateNotifier();
 
+      // Routes that have been built for real and no longer render a
+      // placeholder. Remove an entry here as each screen lands.
+      const Set<AppRoute> implemented = <AppRoute>{
+        AppRoute.bootstrap, // M0.7
+        AppRoute.phoneLogin, // M1.2
+      };
+
       for (final AppRoute route in AppRoute.values) {
         if (protectedRoutes.contains(route)) continue;
-        // Route 1 is a real screen as of M0.7, not a placeholder.
-        if (route == AppRoute.bootstrap) continue;
+        if (implemented.contains(route)) continue;
 
         // Substitute a value for any path parameter.
         final String location = route.path

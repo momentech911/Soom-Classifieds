@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:soom_mobile/app/bootstrap/bootstrap_screen.dart';
 import 'package:soom_mobile/app/localization/direction_demo_screen.dart';
+import 'package:soom_mobile/features/auth/domain/qatar_phone.dart';
+import 'package:soom_mobile/features/auth/presentation/phone_login_cubit.dart';
+import 'package:soom_mobile/features/auth/presentation/phone_login_screen.dart';
 import 'package:soom_mobile/app/router/app_routes.dart';
 import 'package:soom_mobile/app/router/placeholder_screen.dart';
 import 'package:soom_mobile/core/auth/auth_state.dart';
@@ -38,7 +42,31 @@ abstract final class AppRouter {
           builder: (BuildContext context, GoRouterState state) =>
               const BootstrapScreen(),
         ),
-        _route(AppRoute.phoneLogin, plannedIn: 'M1.2'),
+        // Route 2 is real as of M1.2. The cubit is provided here rather than
+        // app-wide: it is scoped to this screen and should reset when the
+        // user leaves. requestOtp is a stub until Firebase lands in M1.1.
+        GoRoute(
+          path: AppRoute.phoneLogin.path,
+          name: AppRoute.phoneLogin.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return BlocProvider<PhoneLoginCubit>(
+              create: (_) => PhoneLoginCubit(
+                requestOtp: (QatarPhone phone) async {
+                  throw UnimplementedError(
+                    'Firebase phone auth arrives in M1.1',
+                  );
+                },
+              ),
+              child: PhoneLoginScreen(
+                onCodeSent: (QatarPhone phone) => context.goNamed(
+                  AppRoute.otpVerification.routeName,
+                  // The OTP screen needs the number it was sent to.
+                  extra: phone,
+                ),
+              ),
+            );
+          },
+        ),
         _route(AppRoute.otpVerification, plannedIn: 'M1.3'),
         _route(AppRoute.profileCompletion, plannedIn: 'M1.5'),
 
