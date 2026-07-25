@@ -54,13 +54,16 @@ class AppL10nAr extends AppL10n {
   }
 
   @override
-  String get loginTitle => 'أدخل رقم هاتفك';
+  String get loginTitle => 'سجّل الدخول برقم هاتفك';
 
   @override
-  String get loginSubtitle => 'سنرسل لك رمز التحقق عبر رسالة نصية.';
+  String get loginSubtitle => 'أدخل رقم هاتفك القطري.';
 
   @override
-  String get loginPhoneLabel => 'رقم الجوال';
+  String get loginPhoneLabel => 'رقم الهاتف';
+
+  @override
+  String get loginPhoneHelper => 'رمز قطر ثابت. أدخل ٨ أرقام فقط.';
 
   @override
   String get loginPhoneHint => '5512 3456';

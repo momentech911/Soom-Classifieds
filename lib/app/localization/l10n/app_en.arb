@@ -73,17 +73,21 @@
     }
   },
 
-  "loginTitle": "Enter your phone number",
+  "loginTitle": "Sign in with your phone",
   "@loginTitle": {
-    "description": "Heading on the phone login screen (S02)."
+    "description": "Heading on the phone login screen (S02). Wording taken from the approved screen reference, not paraphrased."
   },
-  "loginSubtitle": "We'll send you a verification code by SMS.",
+  "loginSubtitle": "Enter your Qatar mobile number.",
   "@loginSubtitle": {
     "description": "Explanation under the login heading."
   },
-  "loginPhoneLabel": "Mobile number",
+  "loginPhoneLabel": "Phone number",
   "@loginPhoneLabel": {
     "description": "Label for the phone field."
+  },
+  "loginPhoneHelper": "Qatar code is fixed. Enter 8 digits only.",
+  "@loginPhoneHelper": {
+    "description": "Helper text under the field, explaining why there is no country picker."
   },
   "loginPhoneHint": "5512 3456",
   "@loginPhoneHint": {

@@ -180,54 +180,60 @@ class _PhoneField extends StatelessWidget {
         Text(context.l10n.loginPhoneLabel, style: theme.textTheme.labelMedium),
         const SizedBox(height: AppSpacing.xs),
 
-        // The number itself is always laid out left-to-right, even in Arabic.
-        // UX Spec: "preserve logical number, phone and price readability."
-        // Without this the +974 prefix jumps to the wrong side of the digits
-        // and the whole field reads as a different number.
-        Directionality(
+        // `textDirection: ltr` keeps the DIGITS in logical order, so a number
+        // never renders scrambled. The field itself is left to follow the
+        // ambient direction, which puts +974 on the leading edge — left in
+        // English, right in Arabic — matching the approved S02 reference.
+        //
+        // Forcing the whole field LTR would pin +974 to the left even in
+        // Arabic, fighting the layout. Only the digit run needs pinning.
+        TextField(
+          controller: controller,
+          focusNode: focusNode,
+          onChanged: onChanged,
+          onSubmitted: onSubmitted,
+          enabled: !state.isSubmitting,
+          keyboardType: TextInputType.phone,
+          textInputAction: TextInputAction.done,
+          autofillHints: const <String>[AutofillHints.telephoneNumber],
           textDirection: TextDirection.ltr,
-          child: TextField(
-            controller: controller,
-            focusNode: focusNode,
-            onChanged: onChanged,
-            onSubmitted: onSubmitted,
-            enabled: !state.isSubmitting,
-            keyboardType: TextInputType.phone,
-            textInputAction: TextInputAction.done,
-            autofillHints: const <String>[AutofillHints.telephoneNumber],
-            textDirection: TextDirection.ltr,
-            style: theme.textTheme.bodyLarge,
-            inputFormatters: <TextInputFormatter>[
-              // Accept Arabic-Indic digits too — an Arabic keyboard produces
-              // them, and QatarPhone.normalise converts them. Blocking them
-              // here would make a valid number impossible to type.
-              FilteringTextInputFormatter.allow(
-                RegExp(r'[0-9٠-٩۰-۹ +\-()]'),
-              ),
-              // Generous cap: room for a pasted "+974 5512 3456" without
-              // truncating it before normalisation can strip the prefix.
-              LengthLimitingTextInputFormatter(20),
-            ],
-            decoration: InputDecoration(
-              hintText: context.l10n.loginPhoneHint,
-              errorText: state.showsError ? '' : null,
-              errorStyle: const TextStyle(height: 0, fontSize: 0),
-              prefixIcon: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.lg,
-                  vertical: AppSpacing.md,
-                ),
-                child: Text(
-                  QatarPhone.dialCode,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: AppColors.textMuted,
-                  ),
-                ),
-              ),
-              prefixIconConstraints: const BoxConstraints(minWidth: 0),
+          style: theme.textTheme.bodyLarge,
+          inputFormatters: <TextInputFormatter>[
+            // Accept Arabic-Indic digits too — an Arabic keyboard produces
+            // them, and QatarPhone.normalise converts them. Blocking them
+            // here would make a valid number impossible to type.
+            FilteringTextInputFormatter.allow(
+              RegExp(r'[0-9٠-٩۰-۹ +\-()]'),
             ),
+            // Generous cap: room for a pasted "+974 5512 3456" without
+            // truncating it before normalisation can strip the prefix.
+            LengthLimitingTextInputFormatter(20),
+          ],
+          decoration: InputDecoration(
+            hintText: context.l10n.loginPhoneHint,
+            hintTextDirection: TextDirection.ltr,
+            errorText: state.showsError ? '' : null,
+            errorStyle: const TextStyle(height: 0, fontSize: 0),
+            prefixIcon: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
+              child: Text(
+                QatarPhone.dialCode,
+                textDirection: TextDirection.ltr,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: AppColors.textMuted,
+                ),
+              ),
+            ),
+            prefixIconConstraints: const BoxConstraints(minWidth: 0),
           ),
         ),
+
+        const SizedBox(height: AppSpacing.xs),
+        // Explains the absence of a country picker, per the S02 reference.
+        Text(context.l10n.loginPhoneHelper, style: theme.textTheme.labelSmall),
       ],
     );
   }

@@ -54,13 +54,16 @@ class AppL10nEn extends AppL10n {
   }
 
   @override
-  String get loginTitle => 'Enter your phone number';
+  String get loginTitle => 'Sign in with your phone';
 
   @override
-  String get loginSubtitle => 'We\'ll send you a verification code by SMS.';
+  String get loginSubtitle => 'Enter your Qatar mobile number.';
 
   @override
-  String get loginPhoneLabel => 'Mobile number';
+  String get loginPhoneLabel => 'Phone number';
+
+  @override
+  String get loginPhoneHelper => 'Qatar code is fixed. Enter 8 digits only.';
 
   @override
   String get loginPhoneHint => '5512 3456';

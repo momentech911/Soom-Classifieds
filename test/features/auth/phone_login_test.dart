@@ -227,27 +227,56 @@ void main() {
   });
 
   group('RTL', () {
-    testWidgets('the phone field stays left-to-right in Arabic', (
+    testWidgets('digits stay in logical order regardless of language', (
       WidgetTester tester,
     ) async {
       // UX Spec: "preserve logical number, phone and price readability."
-      // If the field inherits RTL, +974 renders on the wrong side of the
-      // digits and the number reads as something else entirely.
+      // The digit run must never be reordered by the RTL paragraph.
+      for (final String code in <String>['ar', 'en']) {
+        await pumpLogin(tester, languageCode: code);
+
+        final TextField field = tester.widget(find.byType(TextField));
+        expect(
+          field.textDirection,
+          TextDirection.ltr,
+          reason: 'digits must render LTR in "$code"',
+        );
+      }
+    });
+
+    testWidgets('+974 sits on the leading edge: left in EN, right in AR', (
+      WidgetTester tester,
+    ) async {
+      // Asserted by geometry rather than by eye. The approved S02 reference
+      // shows +974 on the right in Arabic; an earlier version pinned the
+      // whole field LTR, which forced it to the left and fought the layout.
+      double prefixCentre(WidgetTester t) =>
+          t.getCenter(find.text(QatarPhone.dialCode)).dx;
+      double fieldCentre(WidgetTester t) =>
+          t.getCenter(find.byType(TextField)).dx;
+
+      await pumpLogin(tester, languageCode: 'en');
+      expect(
+        prefixCentre(tester),
+        lessThan(fieldCentre(tester)),
+        reason: 'English: +974 belongs on the left',
+      );
+
+      await pumpLogin(tester, languageCode: 'ar');
+      expect(
+        prefixCentre(tester),
+        greaterThan(fieldCentre(tester)),
+        reason: 'Arabic: +974 belongs on the right, per the S02 reference',
+      );
+    });
+
+    testWidgets('body text mirrors to the right in Arabic', (
+      WidgetTester tester,
+    ) async {
       await pumpLogin(tester, languageCode: 'ar');
 
       final BuildContext screen = tester.element(find.byType(Scaffold));
-      expect(
-        Directionality.of(screen),
-        TextDirection.rtl,
-        reason: 'the screen itself should be RTL in Arabic',
-      );
-
-      final BuildContext field = tester.element(find.byType(TextField));
-      expect(
-        Directionality.of(field),
-        TextDirection.ltr,
-        reason: 'the phone field must stay LTR',
-      );
+      expect(Directionality.of(screen), TextDirection.rtl);
     });
 
     testWidgets('Arabic copy renders and layout does not overflow', (
@@ -259,7 +288,9 @@ void main() {
 
       await pumpLogin(tester, languageCode: 'ar');
 
-      expect(find.text('أدخل رقم هاتفك'), findsOneWidget);
+      // Wording matches the approved S02 Arabic reference.
+      expect(find.text('سجّل الدخول برقم هاتفك'), findsOneWidget);
+      expect(find.text('أدخل رقم هاتفك القطري.'), findsOneWidget);
       expect(find.text('متابعة'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });

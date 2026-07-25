@@ -20,9 +20,10 @@
   "forceUpdateBody": "هذا الإصدار من سوم لم يعد مدعومًا. يرجى التحديث للمتابعة.",
   "forceUpdateVersions": "لديك {current}، والمطلوب {minimum}.",
 
-  "loginTitle": "أدخل رقم هاتفك",
-  "loginSubtitle": "سنرسل لك رمز التحقق عبر رسالة نصية.",
-  "loginPhoneLabel": "رقم الجوال",
+  "loginTitle": "سجّل الدخول برقم هاتفك",
+  "loginSubtitle": "أدخل رقم هاتفك القطري.",
+  "loginPhoneLabel": "رقم الهاتف",
+  "loginPhoneHelper": "رمز قطر ثابت. أدخل ٨ أرقام فقط.",
   "loginPhoneHint": "5512 3456",
   "loginContinue": "متابعة",
   "loginGuestNote": "يمكنك التصفح بدون حساب. تسجيل الدخول مطلوب فقط للنشر والمحادثة وحفظ المفضلة.",

@@ -181,23 +181,29 @@ abstract class AppL10n {
   /// **'You have {current}; {minimum} is required.'**
   String forceUpdateVersions(String current, String minimum);
 
-  /// Heading on the phone login screen (S02).
+  /// Heading on the phone login screen (S02). Wording taken from the approved screen reference, not paraphrased.
   ///
   /// In en, this message translates to:
-  /// **'Enter your phone number'**
+  /// **'Sign in with your phone'**
   String get loginTitle;
 
   /// Explanation under the login heading.
   ///
   /// In en, this message translates to:
-  /// **'We\'ll send you a verification code by SMS.'**
+  /// **'Enter your Qatar mobile number.'**
   String get loginSubtitle;
 
   /// Label for the phone field.
   ///
   /// In en, this message translates to:
-  /// **'Mobile number'**
+  /// **'Phone number'**
   String get loginPhoneLabel;
+
+  /// Helper text under the field, explaining why there is no country picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Qatar code is fixed. Enter 8 digits only.'**
+  String get loginPhoneHelper;
 
   /// Placeholder showing the expected 8-digit format. Not translated — it is a number.
   ///
