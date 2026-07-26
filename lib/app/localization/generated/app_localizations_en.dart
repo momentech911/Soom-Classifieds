@@ -102,6 +102,47 @@ class AppL10nEn extends AppL10n {
   }
 
   @override
+  String get otpAppBarTitle => 'Verification';
+
+  @override
+  String get otpTitle => 'Enter verification code';
+
+  @override
+  String otpSentTo(String phone) {
+    return 'Sent to $phone';
+  }
+
+  @override
+  String otpExpiresIn(String time) {
+    return 'Code expires in $time';
+  }
+
+  @override
+  String get otpVerify => 'Verify';
+
+  @override
+  String otpResendIn(String time) {
+    return 'Resend in $time';
+  }
+
+  @override
+  String get otpResend => 'Resend code';
+
+  @override
+  String get otpChangePhone => 'Change phone number';
+
+  @override
+  String get otpErrorInvalid =>
+      'That code isn\'t right. Check it and try again.';
+
+  @override
+  String get otpErrorExpired => 'This code has expired. Request a new one.';
+
+  @override
+  String get otpErrorRateLimited =>
+      'Too many attempts. Please wait before trying again.';
+
+  @override
   String get forceUpdateAction => 'Update now';
 
   @override

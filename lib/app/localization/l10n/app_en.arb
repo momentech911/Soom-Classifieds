@@ -137,6 +137,69 @@
     }
   },
 
+  "otpAppBarTitle": "Verification",
+  "@otpAppBarTitle": {
+    "description": "App bar title on the OTP screen (S03)."
+  },
+  "otpTitle": "Enter verification code",
+  "@otpTitle": {
+    "description": "Heading on the OTP screen. Wording from the approved reference."
+  },
+  "otpSentTo": "Sent to {phone}",
+  "@otpSentTo": {
+    "description": "Shows the masked number the code went to.",
+    "placeholders": {
+      "phone": {
+        "type": "String",
+        "example": "+974 55•• ••56"
+      }
+    }
+  },
+  "otpExpiresIn": "Code expires in {time}",
+  "@otpExpiresIn": {
+    "description": "Countdown until the code stops working.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "01:24"
+      }
+    }
+  },
+  "otpVerify": "Verify",
+  "@otpVerify": {
+    "description": "Primary action: submit the code."
+  },
+  "otpResendIn": "Resend in {time}",
+  "@otpResendIn": {
+    "description": "Cooldown before another code may be requested.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "00:34"
+      }
+    }
+  },
+  "otpResend": "Resend code",
+  "@otpResend": {
+    "description": "Request a new code, once the cooldown has elapsed."
+  },
+  "otpChangePhone": "Change phone number",
+  "@otpChangePhone": {
+    "description": "Go back to the login screen to correct the number."
+  },
+  "otpErrorInvalid": "That code isn't right. Check it and try again.",
+  "@otpErrorInvalid": {
+    "description": "The entered code was rejected."
+  },
+  "otpErrorExpired": "This code has expired. Request a new one.",
+  "@otpErrorExpired": {
+    "description": "The code timed out; only a resend can help."
+  },
+  "otpErrorRateLimited": "Too many attempts. Please wait before trying again.",
+  "@otpErrorRateLimited": {
+    "description": "Too many verify or resend attempts."
+  },
+
   "forceUpdateAction": "Update now",
   "@forceUpdateAction": {
     "description": "Button that opens the app store listing."

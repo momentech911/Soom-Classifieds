@@ -165,6 +165,7 @@ void main() {
       const Set<AppRoute> implemented = <AppRoute>{
         AppRoute.bootstrap, // M0.7
         AppRoute.phoneLogin, // M1.2
+        AppRoute.otpVerification, // M1.3
       };
 
       for (final AppRoute route in AppRoute.values) {

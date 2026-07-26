@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:soom_mobile/core/utils/arabic_digits.dart';
 
 /// Why a phone number was rejected.
 enum QatarPhoneError {
@@ -67,7 +68,7 @@ class QatarPhone extends Equatable {
   /// Handles the shapes people actually type or paste:
   /// `+974 5512 3456`, `00974-55123456`, `(974) 5512 3456`, `٥٥١٢٣٤٥٦`.
   static String normalise(String input) {
-    final String digits = _toWesternDigits(input).replaceAll(RegExp(r'\D'), '');
+    final String digits = ArabicDigits.digitsOnly(input);
 
     // Strip the country code however it was written — but only when what
     // remains is exactly a local number. A looser check silently mangles
@@ -84,34 +85,6 @@ class QatarPhone extends Equatable {
     return digits;
   }
 
-  /// Converts Arabic-Indic (٠-٩) and Eastern Arabic-Indic (۰-۹) digits to
-  /// ASCII.
-  ///
-  /// An Arabic keyboard produces these, and `int.parse` and `\d` both reject
-  /// them — so a perfectly valid number typed in Arabic would look invalid.
-  static String _toWesternDigits(String input) {
-    const String arabicIndic = '٠١٢٣٤٥٦٧٨٩';
-    const String easternArabicIndic = '۰۱۲۳۴۵۶۷۸۹';
-
-    final StringBuffer out = StringBuffer();
-
-    for (final int rune in input.runes) {
-      final String char = String.fromCharCode(rune);
-      final int arabicIndex = arabicIndic.indexOf(char);
-      final int easternIndex = easternArabicIndic.indexOf(char);
-
-      if (arabicIndex >= 0) {
-        out.write(arabicIndex);
-      } else if (easternIndex >= 0) {
-        out.write(easternIndex);
-      } else {
-        out.write(char);
-      }
-    }
-
-    return out.toString();
-  }
-
   /// E.164, the storage format: `+97455123456`.
   String get e164 => '$dialCode$localNumber';
 
@@ -122,11 +95,16 @@ class QatarPhone extends Equatable {
   /// Full number as shown to the user: `+974 5512 3456`.
   String get formatted => '$dialCode $formattedLocal';
 
-  /// Partially hidden for the OTP screen: `+974 •••• 3456`.
+  /// Partially hidden for the OTP screen: `+974 55•• ••56`.
   ///
-  /// Enough to confirm the right number without printing it in full on a
-  /// screen the user may show someone.
-  String get masked => '$dialCode •••• ${localNumber.substring(4)}';
+  /// Format taken from the approved S03 reference. Showing the first two
+  /// digits as well as the last two is deliberate: the prefix is how someone
+  /// recognises which of their numbers it is, and the last two confirm no
+  /// typo, without printing the whole number on a screen they may be holding
+  /// in public.
+  String get masked =>
+      '$dialCode ${localNumber.substring(0, 2)}•• ••'
+      '${localNumber.substring(6)}';
 
   @override
   List<Object?> get props => <Object?>[localNumber];

@@ -36,6 +36,18 @@
   "loginErrorRateLimited": "محاولات كثيرة. يرجى المحاولة بعد قليل.",
   "loginErrorRateLimitedIn": "محاولات كثيرة. حاول مرة أخرى خلال {seconds} ثانية.",
 
+  "otpAppBarTitle": "التحقق",
+  "otpTitle": "أدخل رمز التحقق",
+  "otpSentTo": "أُرسل إلى {phone}",
+  "otpExpiresIn": "ينتهي الرمز خلال {time}",
+  "otpVerify": "تحقق",
+  "otpResendIn": "إعادة الإرسال خلال {time}",
+  "otpResend": "إعادة إرسال الرمز",
+  "otpChangePhone": "تغيير رقم الهاتف",
+  "otpErrorInvalid": "الرمز غير صحيح. تحقق منه وحاول مرة أخرى.",
+  "otpErrorExpired": "انتهت صلاحية هذا الرمز. اطلب رمزًا جديدًا.",
+  "otpErrorRateLimited": "محاولات كثيرة. يرجى الانتظار قبل المحاولة مرة أخرى.",
+
   "forceUpdateAction": "التحديث الآن",
   "maintenanceTitle": "قيد الصيانة",
   "maintenanceBody": "سوم غير متاح مؤقتًا بينما نجري بعض التحسينات. يرجى المحاولة بعد قليل.",

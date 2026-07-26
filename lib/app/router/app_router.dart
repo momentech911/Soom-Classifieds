@@ -5,6 +5,8 @@ import 'package:soom_mobile/app/bootstrap/bootstrap_screen.dart';
 import 'package:soom_mobile/app/localization/direction_demo_screen.dart';
 import 'package:soom_mobile/features/auth/domain/qatar_phone.dart';
 import 'package:soom_mobile/features/auth/presentation/phone_login_cubit.dart';
+import 'package:soom_mobile/features/auth/presentation/otp_cubit.dart';
+import 'package:soom_mobile/features/auth/presentation/otp_screen.dart';
 import 'package:soom_mobile/features/auth/presentation/phone_login_screen.dart';
 import 'package:soom_mobile/app/router/app_routes.dart';
 import 'package:soom_mobile/app/router/placeholder_screen.dart';
@@ -67,7 +69,40 @@ abstract final class AppRouter {
             );
           },
         ),
-        _route(AppRoute.otpVerification, plannedIn: 'M1.3'),
+        // Route 3 is real as of M1.3. The number arrives via `extra` from
+        // the login screen; without it there is nothing to verify, so fall
+        // back to login rather than rendering a broken screen.
+        GoRoute(
+          path: AppRoute.otpVerification.path,
+          name: AppRoute.otpVerification.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            final Object? phone = state.extra;
+            if (phone is! QatarPhone) {
+              return const _MissingPhoneRedirect();
+            }
+
+            return BlocProvider<OtpCubit>(
+              create: (_) => OtpCubit(
+                phone: phone,
+                verifyCode: (String code) async {
+                  throw UnimplementedError(
+                    'Firebase phone auth arrives in M1.1',
+                  );
+                },
+                resendCode: () async {
+                  throw UnimplementedError(
+                    'Firebase phone auth arrives in M1.1',
+                  );
+                },
+              ),
+              child: OtpScreen(
+                onVerified: () => context.goNamed(AppRoute.home.routeName),
+                onChangePhone: () =>
+                    context.goNamed(AppRoute.phoneLogin.routeName),
+              ),
+            );
+          },
+        ),
         _route(AppRoute.profileCompletion, plannedIn: 'M1.5'),
 
         _route(AppRoute.home, plannedIn: 'M3.1'),
@@ -189,6 +224,33 @@ abstract final class AppRouter {
     }
     return null;
   }
+}
+
+/// Sends the user back to login when the OTP route is reached without a
+/// phone number.
+///
+/// Happens on a deep link straight to `/login/otp`, or a hot restart that
+/// loses `extra`. Bouncing is better than an OTP screen with nothing to
+/// verify against.
+class _MissingPhoneRedirect extends StatefulWidget {
+  const _MissingPhoneRedirect();
+
+  @override
+  State<_MissingPhoneRedirect> createState() => _MissingPhoneRedirectState();
+}
+
+class _MissingPhoneRedirectState extends State<_MissingPhoneRedirect> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.goNamed(AppRoute.phoneLogin.routeName);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      const Scaffold(body: Center(child: CircularProgressIndicator()));
 }
 
 /// Shown when a location matches no route.

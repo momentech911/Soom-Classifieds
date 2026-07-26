@@ -101,6 +101,46 @@ class AppL10nAr extends AppL10n {
   }
 
   @override
+  String get otpAppBarTitle => 'التحقق';
+
+  @override
+  String get otpTitle => 'أدخل رمز التحقق';
+
+  @override
+  String otpSentTo(String phone) {
+    return 'أُرسل إلى $phone';
+  }
+
+  @override
+  String otpExpiresIn(String time) {
+    return 'ينتهي الرمز خلال $time';
+  }
+
+  @override
+  String get otpVerify => 'تحقق';
+
+  @override
+  String otpResendIn(String time) {
+    return 'إعادة الإرسال خلال $time';
+  }
+
+  @override
+  String get otpResend => 'إعادة إرسال الرمز';
+
+  @override
+  String get otpChangePhone => 'تغيير رقم الهاتف';
+
+  @override
+  String get otpErrorInvalid => 'الرمز غير صحيح. تحقق منه وحاول مرة أخرى.';
+
+  @override
+  String get otpErrorExpired => 'انتهت صلاحية هذا الرمز. اطلب رمزًا جديدًا.';
+
+  @override
+  String get otpErrorRateLimited =>
+      'محاولات كثيرة. يرجى الانتظار قبل المحاولة مرة أخرى.';
+
+  @override
   String get forceUpdateAction => 'التحديث الآن';
 
   @override

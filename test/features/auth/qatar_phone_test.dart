@@ -100,9 +100,11 @@ void main() {
       expect(phone.formatted, '+974 5512 3456');
     });
 
-    test('masks all but the last four digits', () {
-      expect(phone.masked, '+974 •••• 3456');
-      expect(phone.masked, isNot(contains('5512')));
+    test('masks the middle, keeping first and last two', () {
+      // Format from the approved S03 reference: the first two identify which
+      // number it is, the last two confirm no typo.
+      expect(phone.masked, '+974 55•• ••56');
+      expect(phone.masked, isNot(contains('1234')));
     });
   });
 

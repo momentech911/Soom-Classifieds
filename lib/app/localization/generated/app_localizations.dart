@@ -265,6 +265,72 @@ abstract class AppL10n {
   /// **'Too many attempts. Try again in {seconds} seconds.'**
   String loginErrorRateLimitedIn(int seconds);
 
+  /// App bar title on the OTP screen (S03).
+  ///
+  /// In en, this message translates to:
+  /// **'Verification'**
+  String get otpAppBarTitle;
+
+  /// Heading on the OTP screen. Wording from the approved reference.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter verification code'**
+  String get otpTitle;
+
+  /// Shows the masked number the code went to.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent to {phone}'**
+  String otpSentTo(String phone);
+
+  /// Countdown until the code stops working.
+  ///
+  /// In en, this message translates to:
+  /// **'Code expires in {time}'**
+  String otpExpiresIn(String time);
+
+  /// Primary action: submit the code.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get otpVerify;
+
+  /// Cooldown before another code may be requested.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {time}'**
+  String otpResendIn(String time);
+
+  /// Request a new code, once the cooldown has elapsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code'**
+  String get otpResend;
+
+  /// Go back to the login screen to correct the number.
+  ///
+  /// In en, this message translates to:
+  /// **'Change phone number'**
+  String get otpChangePhone;
+
+  /// The entered code was rejected.
+  ///
+  /// In en, this message translates to:
+  /// **'That code isn\'t right. Check it and try again.'**
+  String get otpErrorInvalid;
+
+  /// The code timed out; only a resend can help.
+  ///
+  /// In en, this message translates to:
+  /// **'This code has expired. Request a new one.'**
+  String get otpErrorExpired;
+
+  /// Too many verify or resend attempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait before trying again.'**
+  String get otpErrorRateLimited;
+
   /// Button that opens the app store listing.
   ///
   /// In en, this message translates to:

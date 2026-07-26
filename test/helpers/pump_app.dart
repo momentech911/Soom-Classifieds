@@ -24,11 +24,19 @@ Future<LocaleCubit> localeCubitFor(String languageCode) async {
 ///
 /// Use this to test a single screen in isolation — it gives the real theme,
 /// the real localizations and correct [Directionality], without the router.
+/// Set [settle] false for screens that run a periodic timer.
+///
+/// `pumpAndSettle` advances the fake clock in 100ms steps for as long as
+/// frames keep being scheduled. A one-second countdown reschedules forever,
+/// so settling silently fast-forwards until every timer has run out — a
+/// screen with a two-minute expiry arrives already expired, and assertions
+/// fail for reasons that have nothing to do with the code under test.
 Future<LocaleCubit> pumpLocalized(
   WidgetTester tester,
   Widget child, {
   String languageCode = 'en',
   LocaleCubit? cubit,
+  bool settle = true,
 }) async {
   final LocaleCubit localeCubit = cubit ?? await localeCubitFor(languageCode);
 
@@ -54,7 +62,11 @@ Future<LocaleCubit> pumpLocalized(
       ),
     ),
   );
-  await tester.pumpAndSettle();
+  if (settle) {
+    await tester.pumpAndSettle();
+  } else {
+    await tester.pump();
+  }
 
   return localeCubit;
 }
