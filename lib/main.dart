@@ -1,3 +1,6 @@
+import 'dart:developer' as developer;
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,6 +19,24 @@ import 'package:soom_mobile/core/storage/app_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Firebase backs phone OTP. Config comes from the native files
+  // (google-services.json / GoogleService-Info.plist), so there is no
+  // generated firebase_options.dart to keep in sync — and no project
+  // identifiers checked into a public repo.
+  //
+  // A failure here must not take the app down: guests browse without ever
+  // touching auth, so the app boots and only the sign-in path is affected.
+  try {
+    await Firebase.initializeApp();
+  } on Object catch (error, stack) {
+    developer.log(
+      'Firebase failed to initialise — sign-in will be unavailable',
+      name: 'SOOM.bootstrap',
+      error: error,
+      stackTrace: stack,
+    );
+  }
 
   final AppPreferences preferences = await AppPreferences.create();
 

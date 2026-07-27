@@ -1,4 +1,4 @@
-package com.soom.soom_mobile
+package com.soom.app
 
 import io.flutter.embedding.android.FlutterActivity
 

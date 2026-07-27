@@ -27,6 +27,22 @@ lib/
                # notifications, profile, settings  (each: data/domain/presentation/widgets)
 ```
 
+## App identity (do not change)
+
+- **Android `applicationId` / iOS bundle id: `com.soom.app`** — matches the
+  apps registered in Firebase project `soom-5672c`.
+- Renamed from Flutter's generated `com.soom.soom_mobile` / `com.soom.soomMobile`
+  on 27 July 2026, before any release. **After first store release this can
+  never change**: a different id is a different app, with no upgrade path for
+  existing users.
+- Firebase config lives in `android/app/google-services.json` and
+  `ios/Runner/GoogleService-Info.plist`. Both are **gitignored** — this repo is
+  public. There is no generated `firebase_options.dart`; the native files are
+  the single source, so nothing has to be kept in sync.
+- The **service account key** is backend-only, at
+  `soom-api/storage/app/firebase/service-account.json` (gitignored). It must
+  never appear in this repo.
+
 ## Stack
 
 Flutter (Dart 3) · flutter_bloc · Dio · Hive + secure storage · go_router · Firebase Auth (phone OTP) · FCM · S3-compatible media · backend is Laravel `/api/v1`.

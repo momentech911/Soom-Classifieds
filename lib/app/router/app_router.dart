@@ -11,6 +11,7 @@ import 'package:soom_mobile/features/auth/presentation/phone_login_screen.dart';
 import 'package:soom_mobile/app/router/app_routes.dart';
 import 'package:soom_mobile/app/router/placeholder_screen.dart';
 import 'package:soom_mobile/core/auth/auth_state.dart';
+import 'package:soom_mobile/features/auth/data/firebase_phone_auth_service.dart';
 
 /// Builds the app's [GoRouter].
 ///
@@ -26,7 +27,20 @@ abstract final class AppRouter {
   static GoRouter create({
     required AuthStateNotifier auth,
     String? initialLocation,
+    FirebasePhoneAuthService? phoneAuth,
   }) {
+    // One instance shared across login and OTP: the verification id produced
+    // when requesting the code is exactly what verifying it needs.
+    //
+    // Resolved lazily, on first use rather than at router construction.
+    // FirebaseAuth.instance throws unless Firebase.initializeApp has run, so
+    // building it eagerly would make every router test — and any build where
+    // Firebase failed to start — die on construction, including for guests
+    // who never sign in.
+    FirebasePhoneAuthService? resolved = phoneAuth;
+    FirebasePhoneAuthService otp() =>
+        resolved ??= FirebasePhoneAuthService();
+
     return GoRouter(
       initialLocation: initialLocation ?? AppRoute.bootstrap.path,
       // Re-run redirects whenever auth changes, so signing out of a protected
@@ -53,11 +67,7 @@ abstract final class AppRouter {
           builder: (BuildContext context, GoRouterState state) {
             return BlocProvider<PhoneLoginCubit>(
               create: (_) => PhoneLoginCubit(
-                requestOtp: (QatarPhone phone) async {
-                  throw UnimplementedError(
-                    'Firebase phone auth arrives in M1.1',
-                  );
-                },
+                requestOtp: (QatarPhone phone) => otp().requestOtp(phone),
               ),
               child: PhoneLoginScreen(
                 onCodeSent: (QatarPhone phone) => context.goNamed(
@@ -84,16 +94,8 @@ abstract final class AppRouter {
             return BlocProvider<OtpCubit>(
               create: (_) => OtpCubit(
                 phone: phone,
-                verifyCode: (String code) async {
-                  throw UnimplementedError(
-                    'Firebase phone auth arrives in M1.1',
-                  );
-                },
-                resendCode: () async {
-                  throw UnimplementedError(
-                    'Firebase phone auth arrives in M1.1',
-                  );
-                },
+                verifyCode: (String code) => otp().verifyCode(code),
+                resendCode: () => otp().resend(phone),
               ),
               child: OtpScreen(
                 onVerified: () => context.goNamed(AppRoute.home.routeName),
